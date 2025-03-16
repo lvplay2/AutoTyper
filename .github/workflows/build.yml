@@ -32,7 +32,7 @@ jobs:
 
       - name: Compile autotyper.cpp
         run: |
-          gcc autotyper.cpp -o autotyper.exe -mwindows
+          g++ autotyper.cpp -o autotyper.exe -mwindows -lstdc++ -pthread
 
       - name: Upload compiled exe as artifact
         uses: actions/upload-artifact@v4

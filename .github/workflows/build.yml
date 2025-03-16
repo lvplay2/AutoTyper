@@ -1,0 +1,29 @@
+name: Build AutoTyper
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up MinGW (GCC for Windows)
+        uses: msys2/setup-msys2-action@v2
+        with:
+          install: 'mingw-w64-x86_64-gcc'
+
+      - name: Compile autotyper.cpp
+        run: |
+          g++ autotyper.cpp -o autotyper.exe -mwindows
+          
+      - name: Upload compiled exe as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: autotyper-exe
+          path: autotyper.exe

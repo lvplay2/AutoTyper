@@ -9,21 +9,33 @@ jobs:
   build:
     runs-on: windows-latest
     
+    defaults:
+      run:
+        shell: msys2 {0}
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Set up MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            curl
+            git
 
-      - name: Install MSYS2
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install MinGW and GCC
         run: |
           pacman -Syu --noconfirm
           pacman -S --noconfirm mingw-w64-x86_64-gcc
 
       - name: Compile autotyper.cpp
         run: |
-          C:/msys64/mingw64/bin/gcc.exe autotyper.cpp -o autotyper.exe -mwindows
+          gcc autotyper.cpp -o autotyper.exe -mwindows
 
       - name: Upload compiled exe as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: autotyper-exe
           path: autotyper.exe

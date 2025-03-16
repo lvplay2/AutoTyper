@@ -13,15 +13,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up MinGW (GCC for Windows)
-        uses: msys2/setup-msys2-action@v2
-        with:
-          msys2_version: '20230720'
-          install: 'mingw-w64-x86_64-gcc'
+      - name: Install MSYS2
+        run: |
+          pacman -Syu --noconfirm
+          pacman -S --noconfirm mingw-w64-x86_64-gcc
 
       - name: Compile autotyper.cpp
         run: |
-          g++ autotyper.cpp -o autotyper.exe -mwindows
+          C:/msys64/mingw64/bin/gcc.exe autotyper.cpp -o autotyper.exe -mwindows
 
       - name: Upload compiled exe as artifact
         uses: actions/upload-artifact@v2

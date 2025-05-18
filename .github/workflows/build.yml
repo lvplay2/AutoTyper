@@ -44,7 +44,7 @@ jobs:
     name: Upload artifacts
     needs: [build]
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'lvplay2/autotyper' }}
+    if: ${{ github.event_name == 'push' && github.repository == 'lvplay2/autotyper' }}
     steps:
     - uses: actions/checkout@v4
       with:

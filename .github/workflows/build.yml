@@ -32,10 +32,33 @@ jobs:
 
       - name: Compile autotyper.cpp
         run: |
-          g++ autotyper.cpp -o autotyper.exe -mwindows -lstdc++ -pthread
+          g++ autotyper.cpp -o autotyper.exe -mwindows -static -lstdc++ -pthread
 
       - name: Upload compiled exe as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: autotyper
+          name: Build
           path: autotyper.exe
+
+  upload:
+    name: Upload artifacts
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'lvplay2/autotyper' }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: probonopd/uploadtool
+
+    - uses: actions/download-artifact@main
+      with:
+       name: Build
+       path: autotyper.exe
+
+    - name: Upload Continuous Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
+      run: |
+        ./upload.sh \
+          autotyper.exe

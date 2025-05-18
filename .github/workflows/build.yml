@@ -55,6 +55,11 @@ jobs:
        name: Build
        path: autotyper.exe
 
+    - name: Debug step
+      run: |
+        find . -type f
+
+
     - name: Upload Continuous Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

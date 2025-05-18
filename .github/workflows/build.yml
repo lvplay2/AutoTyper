@@ -59,11 +59,10 @@ jobs:
       run: |
         find . -type f
 
-
     - name: Upload Continuous Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
       run: |
         ./upload.sh \
-          ./autotyper.exe
+          ./autotyper.exe/autotyper.exe

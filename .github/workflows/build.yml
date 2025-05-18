@@ -61,4 +61,4 @@ jobs:
         UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
       run: |
         ./upload.sh \
-          autotyper.exe
+          ./autotyper.exe
